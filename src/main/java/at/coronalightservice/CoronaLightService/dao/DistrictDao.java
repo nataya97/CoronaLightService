@@ -20,4 +20,7 @@ public interface DistrictDao extends CrudRepository<District, Long> {
 
     List<District> getAllByGkzIsNotNull();
 
+    District getDistrictByDistrict(String name);
+
+
 }

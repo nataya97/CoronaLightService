@@ -10,7 +10,7 @@
                 dark
 
             >
-                <strong>{{ item.lightStatus }}</strong>&nbsp;
+                {{ item.lightStatus }}
             </v-chip>
         </template>
     </v-data-table>
@@ -18,6 +18,7 @@
 
 <script>
     import DistrictCasesService from "../services/DistrictCasesService";
+    import DistrictService from "../services/DistrictService";
     export default {
         name: "District",
 
@@ -42,20 +43,27 @@
                     for (var i = 0; i < response.data.length; i++) {
                         this.items = response.data;
                         this.items[i].district = response.data[i].district.district;
-                        this.items[i].gkz = response.data[i].id;
+                        /*this.items[i].gkz = console.log("undef ",  this.getGkz(response.data[i].district));*/
                         this.items[i].lightStatus = response.data[i].numberOfCasesLastSevenDays;
                     }
-                    console.log("the response...", response.data[1], this.items)
+                    this.getGkz("Eisenstadt(Stadt)")
+                    console.log("the responseeee...", response.data[0])
+
                 }).catch(error => console.log(error.response));
             },
 
             getColor(val) {
-                  console.log("value: ", val)
                   if (val > 200) return "#EF0404"
                   else if (val >100) return "#FF8300"
                   else return "#1B8B14"
 
             },
+
+            getGkz(name) {
+                DistrictService.getByName(name).then(response => {
+                    console.log(response.data)
+                })
+            }
         },
 
         mounted() {

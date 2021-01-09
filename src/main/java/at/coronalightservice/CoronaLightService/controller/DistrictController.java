@@ -63,4 +63,14 @@ public class DistrictController {
         return districtService.getByGkz(gkz);
     }
 
+    /*@GetMapping("name")
+    @ApiOperation(value = "Get a District by Name", response = District.class) //or model class?
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Request Successful"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
+    public District getDistrictByName(@ApiParam(value = "District to get by Name", required = true) @RequestParam("name") String name) {
+        return districtService.getByDistrictName(name);
+    }*/
+
 }

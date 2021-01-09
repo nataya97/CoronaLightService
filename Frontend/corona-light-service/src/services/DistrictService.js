@@ -7,7 +7,7 @@ class DistrictService {
     }
 
     getByName(name) {
-        return api.get(`/district?state=${name}`);
+        return api.get(`/district?district=${name}`);
     }
 
     getAllDistricts() {

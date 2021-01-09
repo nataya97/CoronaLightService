@@ -25,4 +25,7 @@ public class DistrictService {
     public District addDistrict(District district) {return districtDao.save(district); }
 
     public List<District> getAllDistricts() { return districtDao.getAllByGkzIsNotNull(); }
+
+    public District getByDistrictName(String name) {return districtDao.getDistrictByDistrict(name); }
+
 }
