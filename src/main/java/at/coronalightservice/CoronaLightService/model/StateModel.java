@@ -1,7 +1,6 @@
 package at.coronalightservice.CoronaLightService.model;
 
 import at.coronalightservice.CoronaLightService.entity.CovidCases_State;
-import at.coronalightservice.CoronaLightService.entity.CovidCases_Timeline;
 import at.coronalightservice.CoronaLightService.entity.District;
 import com.sun.istack.NotNull;
 import io.swagger.annotations.ApiModel;
@@ -10,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiModel(value = "StateModel") //TODO: Figure out how swagger.json is generated and/or how ApiModel can be viewed on swagger
+@ApiModel(value = "StateModel")
 public class StateModel {
 
     @NotNull
@@ -36,20 +35,15 @@ public class StateModel {
     dataType = "List<CovidCases_State>")
     private List<CovidCases_State> covidCases_State = new ArrayList<>();
 
-    @ApiModelProperty(value = "Covid Cases Timeline",
-    dataType = "List<CovidCases_Timeline>")
-    private List<CovidCases_Timeline> covidCases_timelines = new ArrayList<>();
-
     public StateModel() {
     }
 
     public StateModel(Long stateId, String state, List<District> district,
-                      List<CovidCases_State> covidCases_State, List<CovidCases_Timeline> covidCases_timelines) {
+                      List<CovidCases_State> covidCases_State) {
         this.stateId = stateId;
         this.state = state;
         this.district = district;
         this.covidCases_State = covidCases_State;
-        this.covidCases_timelines = covidCases_timelines;
     }
 
     public Long getId() {
@@ -90,13 +84,5 @@ public class StateModel {
 
     public void setCovidCases_State(List<CovidCases_State> covidCases_State) {
         this.covidCases_State = covidCases_State;
-    }
-
-    public List<CovidCases_Timeline> getCovidCases_timelines() {
-        return covidCases_timelines;
-    }
-
-    public void setCovidCases_timelines(List<CovidCases_Timeline> covidCases_timelines) {
-        this.covidCases_timelines = covidCases_timelines;
     }
 }

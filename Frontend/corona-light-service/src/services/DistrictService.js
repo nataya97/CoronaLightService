@@ -1,5 +1,5 @@
 import api from "../api";
-
+//TODO
 class DistrictService {
 
     getByGkz(gkz) {

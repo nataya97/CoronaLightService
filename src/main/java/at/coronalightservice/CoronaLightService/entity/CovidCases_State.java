@@ -33,7 +33,8 @@ public class CovidCases_State implements Serializable {
     @Column(name = "fzICUFree")
     private Long fzICUFree;
 
-    public CovidCases_State(State state, LocalDate reportDate, Long testSum, Long fzHosp, Long fzICU, Long fzHospFree, Long fzICUFree) {
+    public CovidCases_State(State state, LocalDate reportDate, Long testSum, Long fzHosp,
+                            Long fzICU, Long fzHospFree, Long fzICUFree) {
         this.state = state;
         this.reportDate = reportDate;
         this.testSum = testSum;

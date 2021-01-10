@@ -15,8 +15,6 @@ public interface CovidCases_StateDao extends CrudRepository<CovidCases_State, Lo
 
     List<CovidCases_State> findAllByState_StateId(Long id);
 
-    List<CovidCases_State> getAllByStateIsNotNull();
-
-    List<CovidCases_State> getAllByReportDate(LocalDate date);
+    List<CovidCases_State> getTop10ByReportDateOrderByReportDateAsc(LocalDate reportDate);
 
 }

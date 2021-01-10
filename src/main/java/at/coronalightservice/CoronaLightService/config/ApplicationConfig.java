@@ -12,7 +12,7 @@ public class ApplicationConfig {
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2).select()
-                .apis(RequestHandlerSelectors.basePackage("at.coronalightservice.CoronaLightService"))
+                .apis(RequestHandlerSelectors.any())
                 .build();
     }
 }

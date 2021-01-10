@@ -20,9 +20,6 @@ public class District {
     @ManyToOne(cascade = CascadeType.MERGE)
     private State state;
 
-    @Column(name = "light_Status", length = 36)
-    private String lightStatus;
-
     @JsonIgnore
     @OneToMany(mappedBy = "district", cascade = CascadeType.ALL)
     private List<CovidCases_District> covidCases_district = new ArrayList<>();
@@ -49,14 +46,6 @@ public class District {
 
     public void setGkz(Long gkz) {
         this.gkz = gkz;
-    }
-
-    public String getLightStatus() {
-        return lightStatus;
-    }
-
-    public void setLightStatus(String lightStatus) {
-        this.lightStatus = lightStatus;
     }
 
     public State getState() {

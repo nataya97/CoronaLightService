@@ -27,12 +27,8 @@ public class CovidCases_StateService {
         return covidCases_stateDao.save(covidCases_state);
     }
 
-    public List<CovidCases_State> getAllCases() {
-        return covidCases_stateDao.getAllByStateIsNotNull();
-    }
-
-    public List<CovidCases_State> getAllRecentCases() {
-        return covidCases_stateDao.getAllByReportDate(LocalDate.now().minusDays(10));
+    public List<CovidCases_State> getAllRecentCases(LocalDate date) {
+        return covidCases_stateDao.getTop10ByReportDateOrderByReportDateAsc(date);
     }
 
 }

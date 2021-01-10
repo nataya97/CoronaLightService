@@ -31,4 +31,8 @@ public class CovidCases_DistrictService {
     }
 
 
+    /*public List<CovidCases_District> getAllCasesByDistrict(Long gkz) {
+        return covidCases_districtDao.getAllByDistrictGkz(gkz);
+    }*/
+
 }

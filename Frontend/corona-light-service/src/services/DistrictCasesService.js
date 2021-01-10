@@ -6,8 +6,8 @@ class DistrictCasesService {
         return api.get(`/covidCasesDistricts?district=`);
     }
 
-    getCasesByName(name) {
-        return api.get(`/covidCasesDistricts?district=${name}`);
+    getCasesByStateID(id) {
+        return api.get(`/covidCasesDistricts/${id}`);
     }
 }
 

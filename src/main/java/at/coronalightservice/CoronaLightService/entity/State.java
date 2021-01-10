@@ -25,10 +25,6 @@ public class State {
     @OneToMany(mappedBy = "state", cascade = CascadeType.ALL)
     private List<CovidCases_State> covidCases_State = new ArrayList<>();
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "state", cascade = CascadeType.ALL)
-    private List<CovidCases_Timeline> covidCases_timelines = new ArrayList<>();
-
     public State(Long stateId, String state) {
         this.stateId = stateId;
         this.state = state;
@@ -72,13 +68,5 @@ public class State {
 
     public void setCovidCases_State(List<CovidCases_State> covidCases_State) {
         this.covidCases_State = covidCases_State;
-    }
-
-    public List<CovidCases_Timeline> getCovidCases_timelines() {
-        return covidCases_timelines;
-    }
-
-    public void setCovidCases_timelines(List<CovidCases_Timeline> covidCases_timelines) {
-        this.covidCases_timelines = covidCases_timelines;
     }
 }
