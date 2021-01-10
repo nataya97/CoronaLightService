@@ -33,10 +33,10 @@ public class StateController {
     })
     public ResponseEntity<State> updateState(@ApiParam(value = "State to save", required = true) @RequestBody State state) {
         if(state == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         State state1 = stateService.addState(state);
-        return new ResponseEntity<>(state1, HttpStatus.OK);
+        return new ResponseEntity<>(state1, HttpStatus.CREATED);
     }
 
     @PostMapping
@@ -47,17 +47,18 @@ public class StateController {
     })
     public ResponseEntity<State> addState(@ApiParam(value = "State to save", required = true) @RequestBody State state) {
         if(state == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         State state1 = stateService.addState(state);
-        return new ResponseEntity<>(state1, HttpStatus.OK);
+        return new ResponseEntity<>(state1, HttpStatus.CREATED);
     }
 
     @GetMapping
     @ApiOperation(value = "Get a state by name", response = StateModel.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Request Successful"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
     })
     public ResponseEntity<List<State>> getStateByName(@ApiParam(value = "State to get by Name", required = true) @RequestParam(value = "name", required = false) String name) {
         List<State> stateList = new ArrayList<>();
@@ -77,12 +78,16 @@ public class StateController {
     @ApiOperation(value = "Get a State by ID", response = StateModel.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Request Successful"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
     })
     public ResponseEntity<State> getStateById(@ApiParam(value = "State to get by ID", required = true) @PathVariable Long id) {
         if(StringUtils.isEmpty(id.toString())) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        } else
+            if(StringUtils.isEmpty(stateService.getStateById(id).getState())) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         return new ResponseEntity<>(stateService.getStateById(id), HttpStatus.OK);
     }
 }

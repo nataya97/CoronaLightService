@@ -19,7 +19,7 @@ import java.util.List;
         @Tag(name = "CovidCases_State Endpoint", description = "Der Enpoint, um die Covid-Faelle für die Bundeslaender abzufragen")
 })
 @RestController
-@RequestMapping("/covidCasesState")
+@RequestMapping(value = "/covidCasesState")
 @CrossOrigin(origins = "http://localhost:8080")
 public class CovidCases_StateController {
 

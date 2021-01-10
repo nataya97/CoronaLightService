@@ -28,14 +28,14 @@ public class DistrictController {
     @PutMapping
     @ApiOperation(value = "Update existing District", response = DistrictModel.class)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Creation Successful"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 201, message = "Creation Successful"),
+            @ApiResponse(code = 400, message = "Bad Request"),
     })
     public ResponseEntity<District> updateDistrict(@ApiParam(value = "District to save", required = true) @RequestBody District district) {
-        if(district == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if(StringUtils.isEmpty(district.getDistrict())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(districtService.addDistrict(district), HttpStatus.OK);
+        return new ResponseEntity<>(districtService.addDistrict(district), HttpStatus.CREATED);
     }
 
     @PostMapping
@@ -45,17 +45,18 @@ public class DistrictController {
             @ApiResponse(code = 400, message = "Bad Request")
     })
     public ResponseEntity<District> addDistrict(@ApiParam(value = "District to save", required = true) @RequestBody District district) {
-        if(district == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if(StringUtils.isEmpty(district.getDistrict())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(districtService.addDistrict(district), HttpStatus.OK);
+        return new ResponseEntity<>(districtService.addDistrict(district), HttpStatus.CREATED);
     }
 
     @GetMapping
     @ApiOperation(value = "Get a District by State", response = DistrictModel.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Request Successful"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
     })
     public ResponseEntity<List<District>> getDistrictByState(@ApiParam(value = "District to get by State, if no State specified, get all Districts", required = true) @RequestParam(value = "state", required = false) String state) {
         List<District> districtList = new ArrayList<>();
@@ -66,35 +67,44 @@ public class DistrictController {
             districtList.addAll(districtService.getAllByState(state));
 
         if(districtList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<>(districtList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{/gkz}")
+    @GetMapping(value = "/{gkz}")
     @ApiOperation(value = "Get a District by GKZ", response = DistrictModel.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Request Successful"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
     })
     public ResponseEntity<District> getDistrictByGkz(@ApiParam(value = "District to get by GKZ", required = true) @PathVariable("gkz") Long gkz) {
         if(StringUtils.isEmpty(gkz.toString())) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else
+            if(StringUtils.isEmpty(districtService.getByGkz(gkz).getDistrict())) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+
         return new ResponseEntity<>(districtService.getByGkz(gkz), HttpStatus.OK);
     }
 
-    @GetMapping("/{name}")
+    @GetMapping(params = "name")
     @ApiOperation(value = "Get a District by Name", response = DistrictModel.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Request Successful"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found"),
     })
     public ResponseEntity<District> getDistrictByName(@ApiParam(value = "District to get by Name", required = true) @RequestParam("name") String name) {
         if(StringUtils.isEmpty(name)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else
+            if(StringUtils.isEmpty(districtService.getByDistrictName(name).getDistrict())) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         return new ResponseEntity<>(districtService.getByDistrictName(name), HttpStatus.OK);
     }
 }

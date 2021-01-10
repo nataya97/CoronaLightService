@@ -3,6 +3,7 @@ package at.coronalightservice.CoronaLightService.controller;
 import at.coronalightservice.CoronaLightService.entity.CovidCases_District;
 import at.coronalightservice.CoronaLightService.model.CovidCases_DistrictModel;
 import at.coronalightservice.CoronaLightService.service.CovidCases_DistrictService;
+import at.coronalightservice.CoronaLightService.service.DistrictService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class CovidCases_DistrictController {
     @Autowired
     CovidCases_DistrictService covidCases_districtService;
 
+    @Autowired
+    DistrictService districtService;
+
     @PutMapping
     @ApiOperation(value = "Update existing Covid Case", response = CovidCases_DistrictModel.class)
     @ApiResponses({
@@ -32,11 +36,14 @@ public class CovidCases_DistrictController {
             @ApiResponse(code = 400, message = "Bad Request")
     })
     public ResponseEntity<CovidCases_District> updateCovidCase(@ApiParam(value = "Covid Case to save", required = true) @RequestBody CovidCases_District covidCases_district) {
-        if(covidCases_district == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        if(StringUtils.isEmpty(covidCases_district.getDistrict())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else
+            if(StringUtils.isEmpty(districtService.getByDistrictName(covidCases_district.getDistrict().getDistrict()))) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
         CovidCases_District covidCasesDistrict = covidCases_districtService.addCovidCase(covidCases_district);
-        return new ResponseEntity<>(covidCasesDistrict, HttpStatus.OK);
+        return new ResponseEntity<>(covidCasesDistrict, HttpStatus.CREATED);
     }
 
     @PostMapping
@@ -46,21 +53,26 @@ public class CovidCases_DistrictController {
             @ApiResponse(code = 400, message = "Bad Request")
     })
     public ResponseEntity<CovidCases_District> addCovidCase(@ApiParam(value = "Covid Case to save", required = true) @RequestBody CovidCases_District covidCases_district) {
-        if(covidCases_district == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if(StringUtils.isEmpty(covidCases_district.getDistrict())) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else
+        if(StringUtils.isEmpty(districtService.getByDistrictName(covidCases_district.getDistrict().getDistrict()))) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         CovidCases_District covidCasesDistrict = covidCases_districtService.addCovidCase(covidCases_district);
-        return new ResponseEntity<>(covidCasesDistrict, HttpStatus.OK);
+        return new ResponseEntity<>(covidCasesDistrict, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{gkz}")
     @ApiOperation(value = "Get Covid Cases by a District Gkz", response = CovidCases_DistrictModel.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Request Successful"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
     })
     public ResponseEntity<List<CovidCases_District>> getCovidCasesByGkz(@ApiParam(value = "Covid Cases to get by District Gkz", required = true) @PathVariable Long gkz) {
-        if(StringUtils.isEmpty(gkz.toString())) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if(StringUtils.isEmpty(gkz.toString())) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        else if (covidCases_districtService.getAllByGkz(gkz).isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(covidCases_districtService.getAllByGkz(gkz), HttpStatus.OK);
     }
 
@@ -68,7 +80,8 @@ public class CovidCases_DistrictController {
     @ApiOperation(value = "Get Covid Cases by a District Name", response = CovidCases_DistrictModel.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Request Successful"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
     })
     public ResponseEntity<List<CovidCases_District>> getCovidCasesByName(@ApiParam(value = "Covid Cases to get by District Name", required = true) @RequestParam(value = "district", required = false) String district) {
         List<CovidCases_District> covidCasesDistrictList = new ArrayList<>();
@@ -79,7 +92,7 @@ public class CovidCases_DistrictController {
             covidCasesDistrictList.addAll(covidCases_districtService.getAllByDistrictName(district));
 
         if (covidCasesDistrictList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(covidCasesDistrictList, HttpStatus.OK);
     }
