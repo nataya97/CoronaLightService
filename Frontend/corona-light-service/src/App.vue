@@ -1,30 +1,3 @@
-<!--<template>
-    <div class="v-app-bar">
-        <HeaderBar/>
-        <Home/>
-        <router-view></router-view>
-    </div>
-</template>
-
-<script>
-    import HeaderBar from "./components/HeaderBar";
-    import Home from "./components/Home";
-
-    export default {
-        name: 'App',
-
-        components: {Home, HeaderBar},
-
-        data: () => ({
-            //
-        }),
-    };
-</script>
-
-<style lang="scss">
-
-</style>
--->
 <template>
     <div class="v-app-bar">
         <v-toolbar
@@ -39,6 +12,8 @@
             <v-btn elevation="0" to="/district">Bezirke</v-btn>
             <div class="vl"></div>
             <v-btn elevation="0" to="/state">Bundesländer</v-btn>
+            <v-btn v-if="isAuthenticated" elevation="0" v-on:click="logOut">Logout</v-btn>
+            <v-btn v-else elevation="0" to="/logout">#</v-btn>
         </v-toolbar>
         <router-view></router-view>
     </div>
@@ -46,7 +21,7 @@
 
 <script>
     import {mdiTrafficLight} from '@mdi/js';
-
+    import authentication from './wrapper'
     export default {
         name: 'App',
 
@@ -56,6 +31,16 @@
             //
             mdiTrafficLight
         }),
+        computed:{
+            isAuthenticated() {
+                return authentication.isAuthenticated();
+            }
+        },
+        methods:{
+            logOut() {
+                authentication.signOut();
+            }
+        }
     };
 </script>
 

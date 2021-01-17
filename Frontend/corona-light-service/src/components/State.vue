@@ -81,7 +81,6 @@
             this.getAllStates();
         }
     }
-
 </script>
 
 <style lang="scss" scoped>

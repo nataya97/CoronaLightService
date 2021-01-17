@@ -13,8 +13,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@master
-
+      - uses: actions/checkout@master
+      
     - name: Set up Java version
       uses: actions/setup-java@v1
       with:
@@ -30,3 +30,4 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0d229aa0fe104f849b2cdf71f4b735df }}
         package: '${{ github.workspace }}/target/*.war'
+
