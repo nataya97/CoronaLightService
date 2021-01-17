@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'coronalightservice'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_aceaa5dd848349d89e5e370eacbe7911 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1d78a5f20f64451db63493837b67fc06 }}
         package: .
