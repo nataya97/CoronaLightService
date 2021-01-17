@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Node.js app to Azure Web App - coronalightservice
+name: Build and deploy WAR app to Azure Web App - coronalightservice
 
 on:
   push:
@@ -15,21 +15,18 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Set up Node.js version
-      uses: actions/setup-node@v1
+    - name: Set up Java version
+      uses: actions/setup-java@v1
       with:
-        node-version: '12.13.0'
+        java-version: '8'
 
-    - name: npm install, build, and test
-      run: |
-        npm install
-        npm run build --if-present
-        npm run test --if-present
+    - name: Build with Maven
+      run: mvn clean install
 
-    - name: 'Deploy to Azure Web App'
+    - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'coronalightservice'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_0dfeb48e9ac548b38224422d4c6b7f69 }}
-        package: .
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_0d229aa0fe104f849b2cdf71f4b735df }}
+        package: '${{ github.workspace }}/target/*.war'
