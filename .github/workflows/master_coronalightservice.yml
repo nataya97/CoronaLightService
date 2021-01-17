@@ -32,4 +32,4 @@ jobs:
         app-name: 'coronalightservice'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_0dfeb48e9ac548b38224422d4c6b7f69 }}
-        package: '${{ github.workspace }}/target/*.war'
+        package: .
