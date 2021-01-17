@@ -63,7 +63,7 @@ public class CSVReader {
                 stateController.addState(state);
             }
 
-            if(j >= 2500) {  //only persist the newer data
+            if(j >= 2700) {  //only persist the newer data
                 covidCases_stateController.addCovidCase(new CovidCases_State(stateController.getStateById(state.getStateId()).getBody(), LocalDate.parse(splitEntries[0], formatter), Long.parseLong(splitEntries[1]),
                         Long.parseLong(splitEntries[3]), Long.parseLong(splitEntries[4]), Long.parseLong(splitEntries[5]), Long.parseLong(splitEntries[6])));
             }
