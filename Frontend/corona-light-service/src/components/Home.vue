@@ -1,7 +1,5 @@
 <template>
-    <div>Willkommen zur Corona Light Service Ampel.
-    Bitte Log dich zuerst ein, um fortfahren zu können.</div>
-
+   <div></div>
 </template>
 
 <script>

@@ -53,7 +53,7 @@
             );
         },
         mounted() {
-            const accounts = this.$msalInstance.getAllAccounts();
+            const accounts = this.$msalInstance.getActiveAccount().environment;
             if(accounts.length === 0) {
                 return;
             }
