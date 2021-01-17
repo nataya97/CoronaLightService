@@ -52,6 +52,7 @@ public class CSVReader {
         String[] entries;
         String[] splitEntries;
         int i = 0;
+        int j = 0;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
 
@@ -61,8 +62,12 @@ public class CSVReader {
             if(stateController.getStateByName(state.getState()).getStatusCode().value() != 200) { // Response OK
                 stateController.addState(state);
             }
-            covidCases_stateController.addCovidCase(new CovidCases_State(stateController.getStateById(state.getStateId()).getBody(), LocalDate.parse(splitEntries[0], formatter), Long.parseLong(splitEntries[1]),
-                    Long.parseLong(splitEntries[3]), Long.parseLong(splitEntries[4]), Long.parseLong(splitEntries[5]), Long.parseLong(splitEntries[6])));
+
+            if(j >= 2500) {  //only persist the newer data
+                covidCases_stateController.addCovidCase(new CovidCases_State(stateController.getStateById(state.getStateId()).getBody(), LocalDate.parse(splitEntries[0], formatter), Long.parseLong(splitEntries[1]),
+                        Long.parseLong(splitEntries[3]), Long.parseLong(splitEntries[4]), Long.parseLong(splitEntries[5]), Long.parseLong(splitEntries[6])));
+            }
+            j++;
         }
 
     }

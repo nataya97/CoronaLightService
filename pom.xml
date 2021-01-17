@@ -11,6 +11,7 @@
     <groupId>at.corona-light-service</groupId>
     <artifactId>CoronaLightService</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>CoronaLightService</name>
     <description>A Corona Light Service for Service Engineering KV</description>
 
