@@ -28,10 +28,14 @@
 
 <script>
     import StateCasesService from "../services/StateCasesService";
-
+    import authentication from '../wrapper'
     export default {
         name: "State",
-
+        computed: {
+            isAuthenticated() {
+                return authentication.isAuthenticated();
+            }
+        },
         data() {
             return {
                 search: '',
@@ -68,13 +72,15 @@
                 else if (val > 100) return "#ffdd00"
                 else return "#1B8B14"
             },
+            logOut() {
+                authentication.signOut();
+            }
         },
 
         mounted() {
             this.getAllStates();
         }
     }
-
 </script>
 
 <style lang="scss" scoped>
