@@ -14,19 +14,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@master
+      
+    - name: Set up Java version
+      uses: actions/setup-java@v1
+      with:
+        java-version: '8'
 
-      - name: Set up Java version
-        uses: actions/setup-java@v1
-        with:
-          java-version: '8'
+    - name: Build with Maven
+      run: mvn clean install
 
-      - name: Build with Maven
-        run: mvn clean install
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'coronalightservice'
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_0d229aa0fe104f849b2cdf71f4b735df }}
+        package: '${{ github.workspace }}/target/*.war'
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'coronalightservice'
-          slot-name: 'production'
-          publish-profile: ${{ secrets.AzureAppService_PublishProfile_7f7e0c9596a54c2599f10d193865aba5 }}
-          package: '${{ github.workspace }}/target/*.war'
