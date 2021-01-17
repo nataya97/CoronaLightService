@@ -2,15 +2,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import State from "../components/State";
 import District from "../components/District";
+import Home from "../components/Home";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    redirect: '/state',
     name: 'Home',
-    component: State,
+    component: Home,
   },
   {
     path: '/state',
